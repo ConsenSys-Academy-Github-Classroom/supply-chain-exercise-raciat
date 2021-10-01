@@ -55,7 +55,7 @@ contract SupplyChain {
   }
 
   modifier verifyCaller(address _address) { 
-    require (msg.sender == _address); 
+    require(msg.sender == _address); 
     _;
   }
 
@@ -91,18 +91,21 @@ contract SupplyChain {
   // modifier sold(uint _sku) 
   modifier sold(uint _sku) {
     require(items[_sku].state == State.Sold);
+    require(items[_sku].buyer != address(0));
     _;
   }
   
   // modifier shipped(uint _sku) 
   modifier shipped(uint _sku) {
     require(items[_sku].state == State.Shipped);
+    require(items[_sku].buyer != address(0));
     _;
   }
   
   // modifier received(uint _sku) 
   modifier received(uint _sku) {
     require(items[_sku].state == State.Received);
+    require(items[_sku].buyer != address(0));
     _;
   }
 
@@ -110,7 +113,6 @@ contract SupplyChain {
     // 1. Set the owner to the transaction sender
     owner = msg.sender;
     // 2. Initialize the sku count to 0. Question, is this necessary?
-    skuCount = 0;
   }
 
   function addItem(string memory _name, uint _price) public returns (bool) {
